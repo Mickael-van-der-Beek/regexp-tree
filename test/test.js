@@ -14,9 +14,10 @@ var trees = [
 	'\\u0061',
 	'\\\\',
 	'\\]',
+	'\\a',
 	'a--\\u0061'
 ].forEach(function (set) {
 	tree = regExpTree.parseSet(set);
 	console.log('\nSET=', set);
-	console.log('TREE=', tree);
+	console.log('TREE=', tree, '\n');
 });

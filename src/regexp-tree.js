@@ -155,13 +155,13 @@ module.exports = (function () {
 			/*
 			 * Push current char or extend previously created range
 			 */
-			if (escape === null && unicodeStart === null && range && currChar !== '-') {
+			if (((escape === null && currChar !== '-') || (escape !== null && currChar === '-')) && unicodeStart === null && range) {
 				tree[tree.length - 1].push(
 					currChar
 				);
 				range = false;
 			}
-			else if (escape === null && unicodeStart === null && currChar !== '-') {
+			else if (((escape === null && currChar !== '-') || (escape !== null && currChar === '-')) && unicodeStart === null) {
 				tree.push([
 					currChar
 				]);
