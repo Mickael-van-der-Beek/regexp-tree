@@ -40,14 +40,12 @@ module.exports = (function () {
 
 			if (escape === null && hexadecimalBoundary === i) {
 				currChar = set.substr(hexadecimalBoundary - 3, 4);
-				if (!helpers.isHexadecimal(currChar)) {
-					throw currChar + ' is invalid hexadecimal character.';
-				}
-				currChar = String.fromCharCode(parseInt(currChar, 16));
-				hexadecimalBoundary = null;
 			}
 			else if (escape === null && unicodeBoundary === i) {
 				currChar = set.substr(unicodeBoundary - 1, 2);
+			}
+
+			if (escape === null && unicodeBoundary === i || hexadecimalBoundary === i) {
 				if (!helpers.isHexadecimal(currChar)) {
 					throw currChar + ' is invalid hexadecimal character.';
 				}
