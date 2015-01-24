@@ -59,12 +59,14 @@ module.exports = (function () {
 				escape = null;
 			}
 
-			if (escape === null && hexadecimalBoundary === null && unicodeBoundary === null && (range !== null && range !== i)) {
-				tree[tree.length - 1].push(currChar);
-				range = null;
-			}
-			else if (escape === null && hexadecimalBoundary === null && unicodeBoundary === null && range === null) {
-				tree.push([currChar]);
+			if (escape === null && hexadecimalBoundary === null && unicodeBoundary === null) {
+				if (range === null) {
+					tree.push([currChar]);
+				}
+				else if (range !== null && range !== i) {
+					tree[tree.length - 1].push(currChar);
+					range = null;
+				}
 			}
 		}
 
