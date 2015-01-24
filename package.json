@@ -1,0 +1,19 @@
+{
+	"name": "regexp-tree",
+	"private": true,
+	"version": "0.0.1",
+	"description": "Decomposes RegExp matching groups and sets into character range trees.",
+	"main": "src/regexp-tree.js",
+	"scripts": {
+		"start": "node src/regexp-tree.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Mickael-van-der-Beek/regexp-tree"
+	},
+	"author": "Mickael van der Beek (https://github.com/Mickael-van-der-Beek)",
+	"bugs": {
+		"url": "https://github.com/Mickael-van-der-Beek/regexp-tree/issues"
+	},
+	"homepage": "https://github.com/Mickael-van-der-Beek/regexp-tree"
+}
