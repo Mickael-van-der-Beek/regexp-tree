@@ -35,13 +35,10 @@ module.exports = (function () {
 			prevChar = regexp[i - 1];
 			currChar = regexp[i];
 
-			if (escape) {
-				escape = false;
-			}
 			/*
 			 * Match "escape sequence" start
 			 */
-			else if (!escape && currChar === '\\') {
+			if (!escape && currChar === '\\') {
 				escape = true;
 			}
 			/*
@@ -93,6 +90,10 @@ module.exports = (function () {
 				quantifierStart = null;
 				quantifierEnd = null;
 			}
+
+			if (escape) {
+				escape = false;
+			}
 		}
 	};
 
@@ -101,45 +102,80 @@ module.exports = (function () {
 	RegExpTree.prototype.parseSet = function (set) {
 		var tree = [];
 
-		var prevChar;
 		var currChar;
 
 		var unicodeStart = null;
 		var unicodeEnd = null;
 
-		var rangeStart = null;
-		var rangeEnd = null;
-
-		var escape = false;
+		var escape = null;
+		var range = null;
 
 		for (var i = 0, len = set.length; i < len; i++) {
-			prevChar = set[i - 1];
 			currChar = set[i];
 
-			if (escape) {
-				escape = false;
-			}
+			// console.log('\nU_S=', unicodeStart);
+			// console.log('I=', i);
+			// console.log('ESCAPE=', escape);
+			// console.log('RANGE=', range);
+			// console.log('CURR=', currChar);
+			// console.log('TOTAL_1=', (i + 1 - unicodeStart));
+			// console.log('TOTAL_2=', (i + 1 - unicodeStart === 4));
+			// console.log('TREE=', tree);
+
 			/*
 			 * Match "escape sequence" start
 			 */
-			else if (!escape && currChar === '\\') {
-				escape = true;
+			if (escape === null && currChar === '\\') {
+				escape = i;
 			}
-			else if (escape && currChar === 'u') {
+			/*
+			 * Match "hyphen" start
+			 */
+			else if (escape === null && currChar === '-') {
+				range = true;
+			}
+			/*
+			 * Match "unicode char" start and end
+			 */
+			else if (escape !== null && currChar === 'u') {
 				unicodeStart = i + 1;
 			}
 			else if (unicodeStart !== null && i + 1 - unicodeStart === 4) {
 				unicodeEnd = i;
 				currChar = String.fromCharCode(
 					parseInt(
-						set.substr(unicodeStart, unicodeEnd - unicodeStart),
+						set.substr(unicodeStart, unicodeEnd + 1 - unicodeStart),
 						16
 					)
 				);
 				unicodeStart = null;
 				unicodeEnd = null;
 			}
+
+			/*
+			 * Push current char or extend previously created range
+			 */
+			if (escape === null && unicodeStart === null && range && currChar !== '-') {
+				tree[tree.length - 1].push(
+					currChar
+				);
+				range = false;
+			}
+			else if (escape === null && unicodeStart === null && currChar !== '-') {
+				tree.push([
+					currChar
+				]);
+			}
+
+			/*
+			 * Reset escaping state
+			 */
+			if (escape !== null && escape === i - 1) {
+				escape = null;
+			}
 		}
+
+		return tree;
 	};
 
 	RegExpTree.prototype.parseQuantifier = function (quantifer) {};
