@@ -35,9 +35,9 @@ module.exports = (function () {
 				groupStart = i;
 			}
 			else if (escape === null && currChar === ')' && groupStart !== null) {
-				formattedGroup.sequences = formattedGroup.sequences(
+				formattedGroup.sequences.push(
 					this.parseGroup(
-						group.substr(setStart + 1, i - setStart - 1)
+						group.substr(groupStart + 1, i - groupStart - 1)
 					)
 				);
 				groupStart = null;
@@ -91,7 +91,15 @@ module.exports = (function () {
 				(groupStart === null && currChar !== ')') &&
 				(setStart === null && currChar !== ']')
 			) {
-				formattedGroup.sequences.push(currChar);
+				if (formattedGroup.sequences[formattedGroup.sequences.length - 1] && typeof formattedGroup.sequences[formattedGroup.sequences.length - 1].sequences === 'string') {
+					formattedGroup.sequences[formattedGroup.sequences.length - 1].sequences += currChar;
+				}
+				else {
+					formattedGroup.sequences.push({
+						isGroup: true,
+						sequences: currChar
+					});
+				}
 			}
 		}
 
