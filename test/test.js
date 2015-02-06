@@ -1,36 +1,32 @@
 var RegExpTree = require('../src/regexp-tree');
 var regExpTree = new RegExpTree();
 
-var tree;
+var assert = require('assert');
 
-// var trees = [
-// 	'5',
-// 	'a-b',
-// 	'a-bc',
-// 	// '^a-bc',
-// 	'\\u0061-\\u0063\\u0065-\\u0067',
-// 	'a-\\u0061',
-// 	'a\\-\\u0061',
-// 	'\\u0061',
-// 	'\\\\',
-// 	'\\]',
-// 	'\\a',
-// 	'a--\\u0061'
-// ].forEach(function (set) {
-// 	tree = regExpTree.parseSet(set);
-// 	console.log('\nSET=', set);
-// 	console.log('TREE=', tree, '\n');
-// });
+describe('RegExp Tree module tests', function () {
+	'use strict';
 
-var trees = [
-	'(ab)',
-	'(a[c-d])',
-].forEach(function (group) {
-	tree = regExpTree.parseGroup(group);
-	console.log('\nGROUP=', group);
-	console.log('TREE=', require('util').inspect(tree, {
-		depth: 30,
-		colors: true
-	}));
+	it('Simple range', function () {
+		var group = /a[b-df-h]g/;
+		assert.deepEqual(
+			regExpTree.parse(group),
+			[
+				{
+					isGroup: true,
+					sequences: 'a'
+				},
+				{
+					isSet: true,
+					ranges: [
+						['b', 'd'],
+						['f', 'h']
+					]
+				},
+				{
+					isGroup: true,
+					sequences: 'g'
+				}
+			]
+		);
+	});
 });
-

@@ -5,7 +5,10 @@
 	"description": "Decomposes RegExp matching groups and sets into character range trees.",
 	"main": "src/regexp-tree.js",
 	"scripts": {
-		"start": "node src/regexp-tree.js"
+		"test": "node_modules/mocha/bin/mocha --timeout 1000 --reporter spec test/test.js"
+	},
+	"devDependencies": {
+		"mocha": "~2.1.0"
 	},
 	"repository": {
 		"type": "git",

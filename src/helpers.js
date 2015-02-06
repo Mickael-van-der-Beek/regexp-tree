@@ -47,5 +47,46 @@ module.exports = (function () {
 			'\s'
 		]
 
+		/*
+		[
+			// order matters for these
+			'-',
+			'[',
+			']',
+			// order doesn't matter for any of these
+			'/',
+			'{',
+			'}',
+			'(',
+			')',
+			'*',
+			'+',
+			'?',
+			'.',
+			'\\',
+			'^',
+			'$',
+			'|',
+			// from there on not obligatory but advised
+			'~',
+			'!',
+			'@',
+			'#',
+			'%',
+			'&',
+			'´',
+			'`',
+			'/',
+			'=',
+			'_',
+			':',
+			';',
+			'"',
+			'\'',
+			'<',
+			'>',
+			','
+		]
+		*/
 	};
 })();
