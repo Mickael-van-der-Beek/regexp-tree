@@ -81,15 +81,11 @@ module.exports = (function () {
 				unicodeBoundary = null;
 			}
 
-			if (escape !== null && escape + 1 === i) {
-				escape = null;
-			}
-
-			if (escape === null &&
+			if ((escape === null || escape + 1 === i) &&
 				hexadecimalBoundary === null &&
 				unicodeBoundary === null &&
-				(groupStart === null && currChar !== ')') &&
-				(setStart === null && currChar !== ']')
+				(groupStart === null && !(currChar === ')' && escape === null)) &&
+				(setStart === null && !(currChar === ']' && escape === null))
 			) {
 				if (formattedGroup.sequences[formattedGroup.sequences.length - 1] && typeof formattedGroup.sequences[formattedGroup.sequences.length - 1].sequences === 'string') {
 					formattedGroup.sequences[formattedGroup.sequences.length - 1].sequences += currChar;
@@ -100,6 +96,10 @@ module.exports = (function () {
 						sequences: currChar
 					});
 				}
+			}
+
+			if (escape !== null && escape + 1 === i) {
+				escape = null;
 			}
 		}
 
