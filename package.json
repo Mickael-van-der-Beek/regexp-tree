@@ -1,7 +1,7 @@
 {
 	"name": "regexp-tree",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Decomposes RegExp matching groups and sets into character range trees.",
 	"main": "src/regexp-tree.js",
 	"scripts": {
