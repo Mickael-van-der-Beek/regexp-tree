@@ -34,9 +34,9 @@ Currently, the following tokens are supported:
 	- [ ] \b
 	- [ ] \B
 - [ ] Grouping and back references
-	- [x]\ (x)
+	- [x] (x)
 	- [ ] \n
-	- [ ]\ (?:x)
+	- [ ] (?:x)
 - [ ] Quantifiers
 	- [ ] x*
 	- [ ] x+
